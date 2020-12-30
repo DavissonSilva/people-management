@@ -48,11 +48,6 @@ public class Funcionario  implements Serializable{
 	@NotNull
 	private Float qtdHorasAlmoco;
 	
-	public Funcionario() {
-	}
-	
-	
-	
 	@Enumerated(EnumType.STRING)
 	private PerfilEnum perfil;
 	private Date dataCriacao;
@@ -61,6 +56,11 @@ public class Funcionario  implements Serializable{
 	private Empresa empresa;
 	@OneToMany(mappedBy = "funcionarios", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Lancamentos> lancamentos;
+	
+	
+	public Funcionario() {
+	}
+	
 	
 	@PreUpdate
 	public void preUpdate(){
