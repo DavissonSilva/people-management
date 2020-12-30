@@ -1,4 +1,4 @@
-package com.logicalis.enums;
+package com.logicalis.controleponto.enums;
 
 public enum TipoEnum {
 	INICIO_TRABALHO,

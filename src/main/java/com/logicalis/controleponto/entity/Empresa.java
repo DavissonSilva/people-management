@@ -1,4 +1,4 @@
-package com.logicalis.entity;
+package com.logicalis.controleponto.entity;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -14,21 +14,21 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
+import javax.persistence.Table;
 
 import com.sun.istack.NotNull;
 
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity
+
 @Getter
 @Setter
-public class Empresa implements Serializable{
+@Entity
+@Table(name = "TB_EMPRESA")
+public class Empresa extends AbstractEntity{
 
-	private static final long serialVersionUID = 876545678987655678L;
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)	
-	private Long id;
+
 	@NotNull
 	private String razaoSocial;
 	@NotNull
@@ -39,15 +39,6 @@ public class Empresa implements Serializable{
 	private Date dataAtualizacao;
 	@OneToMany(mappedBy = "empresa", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Funcionario> funcionario;
-	
-	public Empresa() {
-	}
-
-	@Override
-	public String toString() {
-		return "Empresa [id=" + id + ", razaoSocial=" + razaoSocial + ", cnpj=" + cnpj + ", dataCriacao=" + dataCriacao
-				+ ", dataAtualizacao=" + dataAtualizacao + "]";
-	}
 	
 	@PreUpdate
 	public void preUpdate(){
