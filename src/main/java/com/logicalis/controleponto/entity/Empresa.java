@@ -25,7 +25,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "TB_EMPRESA")
 public class Empresa extends AbstractEntity{
 
 
@@ -39,6 +38,15 @@ public class Empresa extends AbstractEntity{
 	private Date dataAtualizacao;
 	@OneToMany(mappedBy = "empresa", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Funcionario> funcionario;
+	
+	public Empresa() {
+	
+	}
+	public Empresa(String razaoSocial, String cnpj) {
+		this.cnpj = cnpj;
+		this.razaoSocial = razaoSocial;
+	}
+	
 	
 	@PreUpdate
 	public void preUpdate(){

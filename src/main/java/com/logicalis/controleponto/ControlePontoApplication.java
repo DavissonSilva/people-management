@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ControlePontoApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ControlePontoApplication.class, args);
+		SpringApplication.run(ControlePontoApplication.class, args);		
 	}
 
 }
