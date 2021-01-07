@@ -3,6 +3,9 @@ package com.logicalis.controleponto.resource;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.web.server.ServerHttpSecurity;
+import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,8 +30,10 @@ public class EmpresaResource {
 		return this.empresaRepository.save(empresa);
 	}
 	@GetMapping
-	public List<Empresa> getTest() {		
+	public List<Empresa> getTest() {	
+		
 		return (List<Empresa>) this.empresaRepository.findAll();
 	}
+
 
 }
