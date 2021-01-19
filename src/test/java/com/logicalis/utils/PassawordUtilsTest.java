@@ -1,9 +1,9 @@
 package com.logicalis.utils;
 
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.logicalis.controleponto.utils.PasswordUtils;

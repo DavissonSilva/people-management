@@ -5,11 +5,13 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.logicalis.controleponto.entity.Funcionario;
 import com.logicalis.controleponto.repository.FuncionarioRepository;
 import com.logicalis.controleponto.service.FuncionarioService;
 
+@Service
 public class FuncionarioServiceImpl implements FuncionarioService{
 	private static final Logger log = LoggerFactory.getLogger(EmpresaServiceImpl.class);
 	

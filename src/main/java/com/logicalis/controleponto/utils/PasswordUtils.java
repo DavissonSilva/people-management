@@ -4,9 +4,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import com.logicalis.controleponto.implementandoService.EmpresaServiceImpl;
+
 public class PasswordUtils {
 
-	private static final Logger log = LoggerFactory.getLogger(PasswordUtils.class);
+	private static final Logger log = LoggerFactory.getLogger(EmpresaServiceImpl.class);
 	
 	public PasswordUtils() {
 	}
