@@ -29,7 +29,7 @@ import com.logicalis.controleponto.response.Response;
 import com.logicalis.controleponto.service.EmpresaService;
 
 @RestController
-@RequestMapping(value = "logicalis/cadastro-PJ")
+@RequestMapping(value = "logicalis/cadastro-pj")
 @CrossOrigin(origins = "*")
 public class CadastroPJResource {
 	

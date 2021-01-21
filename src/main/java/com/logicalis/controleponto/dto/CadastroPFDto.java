@@ -14,7 +14,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CadastroPFdto {
+public class CadastroPFDto {
 	
 	private Long id;
 	@NotEmpty(message = "Nome não pode ser vazio.")

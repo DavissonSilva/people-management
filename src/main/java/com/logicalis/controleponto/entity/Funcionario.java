@@ -3,6 +3,7 @@ package com.logicalis.controleponto.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -39,6 +40,8 @@ public class Funcionario extends AbstractEntity{
 	private Float qtdHorasTrabalhoDia;
 	@NotNull
 	private Float qtdHorasAlmoco;
+	private Optional<Float> qtdHorasAlmocoOpt = Optional.empty();
+
 	
 	@Enumerated(EnumType.STRING)
 	private PerfilEnum perfil;
