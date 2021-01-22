@@ -1,9 +1,8 @@
 package com.logicalis.controleponto.resource;
 
+import java.math.BigDecimal;
 import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
-
-import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +24,6 @@ import com.logicalis.controleponto.implementandoService.EmpresaServiceImpl;
 import com.logicalis.controleponto.response.Response;
 import com.logicalis.controleponto.service.EmpresaService;
 import com.logicalis.controleponto.service.FuncionarioService;
-import com.logicalis.controleponto.utils.PasswordUtils;
 
 @RestController
 @RequestMapping(value = "logicalis/cadastro-pf")
@@ -44,12 +42,15 @@ public class CadastroPfResource {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Response<CadastroPFDto>> cadastrar(@Valid @RequestBody CadastroPFDto cadastroPFdto,
+	public ResponseEntity<Response<CadastroPFDto>> cadastrar( @RequestBody CadastroPFDto cadastroPFdto,
 			BindingResult bindingResult ) throws NoSuchAlgorithmException{
 		log.info("Cadastrodo PJ: {}",cadastroPFdto.toString());
 		
+		System.out.println("AQUI   "   +  cadastroPFdto);
+		
 		Response<CadastroPFDto> response = new Response<CadastroPFDto>();
 		validarDadosExistentes(cadastroPFdto, bindingResult);
+		
 		Funcionario funcionario = this.converterDtoParaFuncionario(cadastroPFdto,bindingResult);
 		
 		if(bindingResult.hasErrors()) {
@@ -62,6 +63,8 @@ public class CadastroPfResource {
 		Optional<Empresa> empresa = this.empresaService.buscarPorCnpj(cadastroPFdto.getCnpj());
 		empresa.ifPresent(emp -> funcionario.setEmpresa(emp));
 		this.funcionarioService.persistir(funcionario);
+		System.out.println("AQUI DAVISSON              "+funcionario +"                                        ");
+		
 		response.setData(this.converterCadastroPFDto(funcionario));
 		
 		return ResponseEntity.ok(response);
@@ -105,7 +108,7 @@ public class CadastroPfResource {
 		funcionario.setEmail(cadastroPFDto.getEmail());
 		funcionario.setCpf(cadastroPFDto.getCpf());
 		funcionario.setPerfil(PerfilEnum.ROLE_USUARIO);
-		funcionario.setSenha(PasswordUtils.gerarBCrypt(cadastroPFDto.getSenha()));
+		//funcionario.setSenha(PasswordUtils.gerarBCrypt(cadastroPFDto.getSenha()));
 		
 		cadastroPFDto.getQtdHorasAlmoco()
 			.ifPresent(qtdHorasAlmoco -> funcionario.setQtdHorasAlmoco(Float.valueOf(qtdHorasAlmoco)));
@@ -113,9 +116,16 @@ public class CadastroPfResource {
 		cadastroPFDto.getQtdHorasTrabalhoDia()
 			.ifPresent(qtdHorasTrabalhoDia -> funcionario.setQtdHorasTrabalhoDia(Float.valueOf(qtdHorasTrabalhoDia)));
 		
+		cadastroPFDto.getValorHora()
+		.ifPresent(ValorHora -> funcionario.setValorHora(new BigDecimal(ValorHora)));
+		
 		return funcionario;
 	}
-	
+	/**
+	 * 
+	 * @param funcionario
+	 * @return
+	 */
 	public CadastroPFDto converterCadastroPFDto(Funcionario funcionario) {
 		CadastroPFDto cadastroPFDto = new CadastroPFDto();
 		
@@ -124,10 +134,16 @@ public class CadastroPfResource {
 		cadastroPFDto.setEmail(funcionario.getEmail());
 		cadastroPFDto.setCpf(funcionario.getCpf());
 		cadastroPFDto.setCnpj(funcionario.getEmpresa().getCnpj());
-		
+				
 		funcionario.getQtdHorasAlmocoOpt().ifPresent(qtdHorasAlmoco -> cadastroPFDto
 				.setQtdHorasAlmoco(Optional.of(Float.toString(qtdHorasAlmoco))));
 		
+		funcionario.getQtdHorasTrabalhoDiaOpt().ifPresent(qtdHorasTrabalhoDiaOpt -> cadastroPFDto
+				.setQtdHorasTrabalhoDia(Optional.of(Float.toString(qtdHorasTrabalhoDiaOpt))));
+		
+		funcionario.getValorHoraOpt()
+			.ifPresent(valorHora -> cadastroPFDto.setValorHora(Optional.of(valorHora.toString())));
+				
 		return cadastroPFDto;
 	}
 	

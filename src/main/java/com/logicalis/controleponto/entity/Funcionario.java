@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
+import javax.persistence.Transient;
 
 import com.logicalis.controleponto.enums.PerfilEnum;
 import com.sun.istack.NotNull;
@@ -35,14 +36,13 @@ public class Funcionario extends AbstractEntity{
 	private String senha;
 	@NotNull
 	private String cpf;	
+	@NotNull
 	private BigDecimal valorHora;
 	@NotNull
 	private Float qtdHorasTrabalhoDia;
 	@NotNull
 	private Float qtdHorasAlmoco;
-	private Optional<Float> qtdHorasAlmocoOpt = Optional.empty();
 
-	
 	@Enumerated(EnumType.STRING)
 	private PerfilEnum perfil;
 	private Date dataCriacao;
@@ -56,6 +56,29 @@ public class Funcionario extends AbstractEntity{
 	public Funcionario() {
 	}
 	
+	
+//	@Transient
+//	private Optional<Float> qtdHorasAlmocoOpt = Optional.empty();
+//	@Transient
+//	private Optional<Float> qtdHorasTrabalhoDiaOpt = Optional.empty();
+//	@Transient
+//	private Optional<Float> ValorHoraOpt = Optional.empty();
+//	
+	
+	@Transient
+	public Optional<BigDecimal> getValorHoraOpt(){
+		return Optional.ofNullable(this.valorHora);
+	}
+	
+	@Transient
+	public Optional<Float> getQtdHorasAlmocoOpt(){
+		return Optional.ofNullable(this.qtdHorasAlmoco);
+	}
+	
+	public Optional<Float> getQtdHorasTrabalhoDiaOpt(){
+		
+		return Optional.ofNullable(this.qtdHorasTrabalhoDia);
+	}
 	
 	@PreUpdate
 	public void preUpdate(){
