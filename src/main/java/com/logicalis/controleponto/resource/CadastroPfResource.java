@@ -122,7 +122,7 @@ public class CadastroPfResource {
 		return funcionario;
 	}
 	/**
-	 * 
+	 * Converter de funcionario para DTO
 	 * @param funcionario
 	 * @return
 	 */
