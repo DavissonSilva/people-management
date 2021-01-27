@@ -1,5 +1,6 @@
 package com.logicalis.controleponto.resource;
 
+import java.math.BigDecimal;
 import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
 
@@ -23,7 +24,7 @@ import com.logicalis.controleponto.response.Response;
 import com.logicalis.controleponto.service.FuncionarioService;
 
 @RestController
-@RequestMapping(value = "logicalis/empresa")
+@RequestMapping(value = "logicalis/funcionario")
 @CrossOrigin(origins ="*")
 public class FuncionarioResource {
 
@@ -35,21 +36,78 @@ public class FuncionarioResource {
 	public FuncionarioResource() {
 	}
 	
-	@PutMapping(value = "/{cpf}")
-	public ResponseEntity<Response<FuncionarioDto>> atualizar(@PathVariable("id") String cpf, @RequestBody FuncionarioDto funcionarioDto,
+	@PutMapping(value = "id/{id}")
+	public ResponseEntity<Response<FuncionarioDto>> atualizar(@PathVariable("id") Long id, @RequestBody FuncionarioDto funcionarioDto,
 			BindingResult bindingResult) throws NoSuchAlgorithmException{
 
-		log.info("Buscando Empresa por CNPJ: {}", funcionarioDto.toString());
+		log.info("Atualizando por CPF: {}", funcionarioDto.toString());
 		
 		Response<FuncionarioDto> response = new Response<FuncionarioDto>();
 		
-		Optional<Funcionario> funcionario = this.funcionarioService.buscarPorCpf(cpf);
+		Optional<Funcionario> funcionario = this.funcionarioService.buscaPorId(id);
 		
 		if(!funcionario.isPresent()) {
 			bindingResult.addError(new ObjectError("Funcionario", "Funcionario não encontrado."));
 			
 		}
+		this.atualizaDadosFuncionario(funcionario.get(), funcionarioDto, bindingResult);
 		
-		return null;
+		if(bindingResult.hasErrors()) {
+			log.error("Error validando funcionarios: {}",bindingResult.getAllErrors());
+			bindingResult.getAllErrors().forEach( error -> response.getErrors().add(error.getDefaultMessage()));
+			
+			return ResponseEntity.badRequest().body(response);
+		}
+		this.funcionarioService.persistir(funcionario.get());
+		response.setData(this.converterFuncionarioDto(funcionario.get()));
+		
+		
+		
+		return ResponseEntity.ok(response);
+	}
+	
+	public void atualizaDadosFuncionario(Funcionario funcionario, FuncionarioDto funcionarioDto,
+			BindingResult bindingResult) throws NoSuchAlgorithmException{
+		
+		funcionario.setNome(funcionarioDto.getNome());
+		
+		if(!funcionario.getEmail().equals(funcionarioDto.getEmail())) {
+				this.funcionarioService.buscarPorEmail(funcionario.getEmail())
+					.ifPresent(func -> bindingResult.addError(new ObjectError("Email", "Email já existente")));
+				funcionario.setEmail(funcionarioDto.getEmail());
+		}
+		funcionario.setQtdHorasAlmoco(null);
+		funcionarioDto.getQtdHorasAlmoco()
+			.ifPresent(qtdHorasAlmoco -> funcionario.setQtdHorasAlmoco(Float.valueOf(qtdHorasAlmoco)));
+		
+		funcionario.setQtdHorasTrabalhoDia(null);
+		funcionarioDto.getQtdHorasTrabalhoDia()
+			.ifPresent(qtdHorasTrabDia -> funcionario.setQtdHorasTrabalhoDia(Float.valueOf(qtdHorasTrabDia)));
+		
+		funcionario.setValorHora(null);
+		funcionarioDto.getValorHora()
+			.ifPresent(valorHora -> funcionario.setValorHora(new BigDecimal(valorHora)));
+		
+		if(funcionarioDto.getSenha().isPresent()) {
+//			funcionario.setSenha(PasswordUtils.gerarBCrypt(funcionarioDto.getSenha().get()));
+		}
+	}
+	
+	private FuncionarioDto converterFuncionarioDto(Funcionario funcionario) {
+		FuncionarioDto funcionarioDto = new FuncionarioDto();
+		
+		funcionarioDto.setId(funcionario.getId());
+		funcionarioDto.setEmail(funcionario.getEmail());
+		funcionarioDto.setNome(funcionario.getNome());
+		
+		funcionario.getQtdHorasAlmocoOpt().ifPresent(
+				qtdHorasAlmoco -> funcionarioDto.setQtdHorasAlmoco(Optional.of(Float.toString(qtdHorasAlmoco))));
+		
+		funcionario.getQtdHorasTrabalhoDiaOpt().ifPresent(
+				qtdHorasTrabalhoDia -> funcionarioDto.setQtdHorasTrabalhoDia(Optional.of(Float.toString(qtdHorasTrabalhoDia))));
+		
+		funcionario.getValorHoraOpt().ifPresent(
+				valorHora -> funcionarioDto.setValorHora(Optional.of(valorHora.toString())));
+		return funcionarioDto;
 	}
 }

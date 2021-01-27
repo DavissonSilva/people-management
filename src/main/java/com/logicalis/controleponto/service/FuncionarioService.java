@@ -29,7 +29,8 @@ public interface FuncionarioService {
 	 */
 	Optional<Funcionario> buscarPorEmail(String email);
 	
-	
+	Optional<Funcionario> buscaPorId(Long id);
+
 
 
 }

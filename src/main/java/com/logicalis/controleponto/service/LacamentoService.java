@@ -1,5 +1,7 @@
 package com.logicalis.controleponto.service;
 
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -24,7 +26,7 @@ public interface LacamentoService {
 	 * @param id
 	 * @return Optional<Lancamento>
 	 */
-//	Optional<Lancamentos> buscaPorId(Long id);
+	Optional<Lancamentos> buscaPorId(Long id);
 	
 	/**
 	 * Persiste um lancamento na base de dados
@@ -38,5 +40,5 @@ public interface LacamentoService {
 	 * 
 	 * @param id
 	 */
-//	void remover(Long id);
+	void remover(Long id);
 }

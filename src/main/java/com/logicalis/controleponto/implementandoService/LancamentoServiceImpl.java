@@ -25,11 +25,12 @@ public class LancamentoServiceImpl implements LacamentoService {
 		return this.lancamentoRepository.findByFuncionariosId(funcionarioId, pageRequest);
 	}
 
-//	@Override
-//	public Optional<Lancamentos> buscaPorId(Long id) {
-//		log.info("Buscando um lancamento por id{}", id);
-//		return Optional.ofNullable(this.lancamentoRepository.findOne(id));
-//	}
+	@Override
+	public Optional<Lancamentos> buscaPorId(Long id) {
+		log.info("Buscando um lancamento por id{}", id);
+		
+		return this.lancamentoRepository.findById(id);
+	}
 
 	@Override
 	public Lancamentos persistir(Lancamentos lancamento) {
@@ -37,10 +38,10 @@ public class LancamentoServiceImpl implements LacamentoService {
 		return this.lancamentoRepository.save(lancamento);
 	}
 
-//	@Override
-//	public void remover(Long id) {
-//		log.info("Removendo o lançamento ID{}", id);
-//		this.lancamentoRepository.delete(id);
-//	}
+	@Override
+	public void remover(Long id) {
+		log.info("Removendo o lançamento ID{}", id);
+		this.lancamentoRepository.deleteById(id);
+	}
 
 }
