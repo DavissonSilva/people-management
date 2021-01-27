@@ -49,6 +49,7 @@ public class FuncionarioResource {
 		if (!funcionario.isPresent()) {
 			bindingResult.addError(new ObjectError("Funcionario", "Funcionario não encontrado."));
 			
+			
 			if (bindingResult.hasErrors()) {
 				log.error("Error validando funcionarios: {}", bindingResult.getAllErrors());
 				bindingResult.getAllErrors().forEach(error -> response.getErrors().add(error.getDefaultMessage()));
