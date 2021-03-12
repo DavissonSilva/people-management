@@ -44,6 +44,7 @@ public class CadastroPfResource {
 	@PostMapping
 	public ResponseEntity<Response<CadastroPFDto>> cadastrar( @RequestBody CadastroPFDto cadastroPFdto,
 			BindingResult bindingResult ) throws NoSuchAlgorithmException{
+		
 		log.info("Cadastrodo PJ: {}",cadastroPFdto.toString());
 		
 		System.out.println("AQUI   "   +  cadastroPFdto);
