@@ -13,34 +13,34 @@ import com.logicalis.controleponto.service.FuncionarioService;
 
 @Service
 public class FuncionarioServiceImpl implements FuncionarioService{
-	private static final Logger log = LoggerFactory.getLogger(EmpresaServiceImpl.class);
+	private static final Logger LOG = LoggerFactory.getLogger(EmpresaServiceImpl.class);
 	
 	@Autowired
 	private FuncionarioRepository funcionarioRepository;
 	
 	@Override
 	public Funcionario persistir(Funcionario funcionario) {
-		log.info("Persistindo Funcionario: {}", funcionario);
+		LOG.info("Persistindo Funcionario: {}", funcionario);
 
 		return this.funcionarioRepository.save(funcionario);
 	}
 
 	@Override
 	public Optional<Funcionario> buscarPorCpf(String cpf) {
-		log.info("Buscando Funcionario por cpf: {}", cpf);
+		LOG.info("Buscando Funcionario por cpf: {}", cpf);
 		return Optional.ofNullable(this.funcionarioRepository.findByCpf(cpf));
 	}
 
 	@Override
 	public Optional<Funcionario> buscarPorEmail(String email) {
-		log.info("Buscando Funcionario por email: {}", email);
+		LOG.info("Buscando Funcionario por email: {}", email);
 		return Optional.ofNullable(this.funcionarioRepository.findByEmail(email));
 		
 	}
 
 	@Override
 	public Optional<Funcionario> buscaPorId(Long id) {
-
+		LOG.info("Buscando Funcionario por id: {}", id);
 		return this.funcionarioRepository.findById(id);
 	}
 }
