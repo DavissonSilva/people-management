@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.logicalis.controleponto.entity.Lancamentos;
@@ -22,9 +23,9 @@ public class LancamentoServiceImpl implements LancamentoService {
 	LancamentoRepository lancamentoRepository;
 
 	@Override
-	public Page<Lancamentos> buscarPorFuncionarioId(Long funcionarioId, PageRequest pageRequest) {
+	public Page<Lancamentos> buscarPorFuncionarioId(Long funcionarioId, Pageable pageable) {
 		LOG.info("Buscando Lancamento para funcionario id", funcionarioId);
-		return this.lancamentoRepository.findByFuncionariosId(funcionarioId, pageRequest);
+		return this.lancamentoRepository.findByFuncionariosId(funcionarioId, pageable);
 	}
 
 	@Override
