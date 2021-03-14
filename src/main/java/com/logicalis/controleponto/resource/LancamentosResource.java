@@ -3,6 +3,8 @@ package com.logicalis.controleponto.resource;
 import java.text.SimpleDateFormat;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.apache.commons.lang3.EnumUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -82,7 +85,7 @@ public class LancamentosResource {
 	}
 
 	@PostMapping
-	public ResponseEntity<Response<LancamendoDto>> salvandolancamento(@RequestBody LancamendoDto dto,
+	public ResponseEntity<Response<LancamendoDto>> salvandolancamento(@Valid @RequestBody LancamendoDto dto,
 			BindingResult bindingResult) throws Exception {
 		LOG.info("Adicionando lançamento:{}", dto.toString());
 		Response<LancamendoDto> response = new Response<LancamendoDto>();
@@ -163,6 +166,7 @@ public class LancamentosResource {
 	}
 	
 	@DeleteMapping(value = "/{id}")
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity<Response<String>> remover(@PathVariable("id") Long id){
 		LOG.info("Deletando por lançamento por id {}:", id);
 		Response<String> response = new Response<String>();

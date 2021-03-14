@@ -95,7 +95,7 @@ public class FuncionarioResource {
 		funcionarioDto.getValorHora().ifPresent(valorHora -> funcionario.setValorHora(new BigDecimal(valorHora)));
 
 		if (funcionarioDto.getSenha().isPresent()) {
-//			funcionario.setSenha(PasswordUtils.gerarBCrypt(funcionarioDto.getSenha().get()));
+			funcionario.setSenha(funcionarioDto.getSenha().get());
 		}
 	}
 
